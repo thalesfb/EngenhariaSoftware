@@ -1,0 +1,43 @@
+@startuml uc
+left to right direction
+skinparam packageStyle rectangle
+
+actor Passageiro
+actor Mantenedor
+
+rectangle "Sistema de Voos" {
+  (Criar conta) as (CreateAccount)
+  (Comprar passagem) as (BuyTicket)
+  (Selecionar assento) as (SelectSeat)
+  (Cancelar compra) as (CancelPurchase)
+  (Consultar voos) as (QueryFlights)
+  (Login) as (Login)
+  (Logout) as (Logout)
+  (Gerenciar voos) as (ManageFlights)
+  (Gerenciar aeronaves) as (ManageAircrafts)
+  (Gerenciar aeroportos) as (ManageAirports)
+  (Gerenciar funcionários) as (ManageEmployees)
+  (Emitir relatórios) as (GenerateReports)
+
+  Passageiro --> (Login)
+  Passageiro --> (Logout)
+  Passageiro --> (CreateAccount)
+  Passageiro --> (BuyTicket)
+  Passageiro --> (SelectSeat)
+  Passageiro --> (CancelPurchase)
+  Passageiro --> (QueryFlights)
+
+  Mantenedor --> (Login)
+  Mantenedor --> (Logout)
+  Mantenedor --> (ManageFlights)
+  Mantenedor --> (ManageAircrafts)
+  Mantenedor --> (ManageAirports)
+  Mantenedor --> (ManageEmployees)
+  Mantenedor --> (GenerateReports)
+
+  (BuyTicket) .> (SelectSeat) : <<include>>
+  (BuyTicket) .> (CancelPurchase) : <<extend>>
+  (CreateAccount) .> (BuyTicket) : <<include>>
+}
+
+@enduml

@@ -1,0 +1,123 @@
+@startuml mer
+
+entity "Pessoa" as Person {
+    * cpf : string
+    --
+    nome : string
+    data_nascimento : date
+}
+
+entity "Passageiro" as Passenger {
+    * id : int
+    --
+    cpf : string
+}
+
+entity "Funcionário" as Employee {
+    * id : int
+    --
+    cpf : string
+    categoria : enum('Piloto', 'Comissário', 'Atendente')
+}
+
+entity "Trabalho" as Job {
+    * id : int
+    --
+    id_passageiro : int
+    local_trabalho : string
+    endereco_comercial : string
+}
+
+entity "E-mail" as Email {
+    * id : int
+    --
+    id_pessoa : int
+    email : string
+}
+
+entity "Telefone" as Phone {
+    * id : int
+    --
+    id_pessoa : int
+    numero : string
+    tipo : string
+}
+
+entity "Endereço" as Address {
+    * id : int
+    --
+    id_pessoa : int
+    rua : string
+    numero : int
+    complemento : string
+    bairro : string
+    cidade : string
+    estado : string
+    cep : string
+}
+
+entity "RG" as Rg {
+    * numero : string
+    --
+    id_pessoa : int
+    data_emissao : date
+    orgao_emissor : string
+}
+
+entity "Voo" as Flight {
+    * numero : int
+    --
+    horario_partida : time
+    horario_chegada : time
+    duracao : int
+    tipo : enum('Doméstico', 'Internacional', 'Fretado')
+    description : text
+    aeronave_id : int
+    origem_id : int
+    destino_id : int
+}
+
+entity "Aeroporto" as Airport {
+    * id : int
+    --
+    sigla : string
+    nome : string
+    cidade : string
+    estado : string
+    pais : string
+}
+
+entity "Aeronave" as Aircraft {
+    * identificador : int
+    --
+    tipo : string
+    descricao : text
+    numero_assentos : int
+    mapa_assentos : string
+}
+
+entity "Reserva" as Reservation {
+    * id : int
+    --
+    id_passageiro : int
+    id_voo : int
+    data_reserva : date
+    forma_pagamento : string
+    numero_reserva : string
+}
+
+Passenger ||--o{ Job : "possui"
+Passenger ||--o{ Email : "possui"
+Passenger ||--o{ Phone: "possui"
+Passenger ||--o{ Address : "possui"
+Passenger ||--o{ Rg : "possui"
+Passenger }o--{ Reservation : "realiza"
+Flight ||--|| Aircraft : "utiliza"
+Flight ||--|| Airport : "origem"
+Flight ||--|| Airport : "destino"
+Reservation }o--|| Flight : "refere-se a"
+Employee ||--o{ Flight : "alocado para"
+Person ||--o{ Passenger
+Person ||--o{ Employee
+
+@enduml
